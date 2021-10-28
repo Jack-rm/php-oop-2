@@ -19,18 +19,79 @@ $user->insertCreditCard($c);
         protected $email;
         protected $address;
 
-        protected function __construct($id, $name, $surname, $email, $address){
+        
+
+       public function __construct($id, $name, $surname, $email, $address){
             
             $this->id = $id;
             $this->name = $name;
             $this->surname = $surname;
             $this->email = $email;
             $this->address = $address;
-            
+        }
+
+        protected function getId(){
+            return $this->id;
+        }
+
+        protected function getAddress(){
+            return $this->address;
         }
 
     };
 
+    trait PremiumUser {
+
+        protected $discount;
+        protected $deliveryTime;
+        
+        protected $subDate;
+        protected $expirationDate;
+
+        public function getPremium(){
+            
+            $today = date("Y/m/d");
+            return $this->subDate = $today;
+        }
+
+        public function getExpirationDate(){
+            return $this->expirationDate = date('Y-m-d', strtotime("+1 months", strtotime($this->subDate)));;
+        }
+
+        /*
+        public function noDeliveryCost(){
+
+            $today = date("Y/m/d");
+            if ($subExpritationDate != $today ){
+
+            }
+        }
+
+        Mi serve l'informazione deliveryCost da prodotto (o da Shop in caso) ..
+
+        */
+    };
+    
+    /*
+
+    Messing around with today date to build up "Premium" functions
+
+    function getToday(){
+        $today = date("Y/m/d");
+
+        if ($today = date("Y/m/d")){
+            return "true";
+        } return "false";
+    }
+
+    echo getToday();
+
+    $today = date("Y/m/d");
+    $expirationDate = date('Y-m-d', strtotime("+1 months", strtotime($today)));
+
+    echo $expirationDate;
+    */
+     
     class Product {
 
         protected $id;
@@ -41,6 +102,7 @@ $user->insertCreditCard($c);
         // protected $seller;        ? sono una classe diversa?
         // protected $manufacturer;  ? Shop ?
         protected $brand;
+        protected $deliveryCost;
 
         protected function __construct($id, $name, $thumb, $description, $price, $brand){
 
@@ -52,5 +114,27 @@ $user->insertCreditCard($c);
             $this->brand = $brand;
         }
     };
+
+    class SSD extends Product {
+
+        protected $capacity;
+        protected $speed;
+
+        public function __construct($capacity, $speed, $id, $name, $thumb, $description, $price, $brand ){
+
+            $this->capacity = $capacity;
+            $this->speed = $speed;
+            parent::__construct($id, $name, $thumb, $description, $price, $brand);
+        }
+    
+        protected function getCapacity(){
+            $this->capacity . " GB";
+        }
+
+        protected function getSpeed(){
+            $this->speed . " MB/s";
+        }
+    };
+
 
 ?>
