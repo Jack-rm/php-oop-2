@@ -19,15 +19,19 @@ $user->insertCreditCard($c);
         protected $email;
         protected $address;
 
-        
+        use PremiumUser;
 
-       public function __construct($id, $name, $surname, $email, $address){
+       public function __construct($id, $name, $surname, $email, $address, $discount, $subDate, $expirationDate){
             
             $this->id = $id;
             $this->name = $name;
             $this->surname = $surname;
             $this->email = $email;
             $this->address = $address;
+
+            $this->discount = $discount;
+            $this->subDate = getPremium();
+            $this->expirationDate = getExpirationDate();
         }
 
         protected function getId(){
@@ -43,12 +47,11 @@ $user->insertCreditCard($c);
     trait PremiumUser {
 
         protected $discount;
-        protected $deliveryTime;
         
         protected $subDate;
         protected $expirationDate;
 
-        public function getPremium(){
+        protected function getPremium(){
             
             $today = date("Y/m/d");
             return $this->subDate = $today;
